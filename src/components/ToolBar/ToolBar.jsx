@@ -1,4 +1,7 @@
 import React from 'react';
+import canvasState from '../../store/canvasState';
+import toolState from '../../store/toolState';
+import Rectangle from '../../tools/Rectangle';
 import s from './ToolBar.module.scss';
 
 const ToolBar = () => {
@@ -6,10 +9,14 @@ const ToolBar = () => {
 		<section className={s.tool}>
 			<nav className={s.nav}>
 				<div className={s.nav__section}>
-					<button>
+					<button
+						onClick={() => toolState.setTool(new Brush(canvasState.canvas))}
+					>
 						<span className='material-icons-outlined'>edit</span>
 					</button>
-					<button>
+					<button
+						onClick={() => toolState.setTool(new Rectangle(canvasState.canvas))}
+					>
 						<span className='material-icons-outlined'>
 							check_box_outline_blank
 						</span>
