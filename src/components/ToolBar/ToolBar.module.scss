@@ -1,7 +1,36 @@
+@import '../mixins/container.scss';
+
 .tool {
+	@include container;
+
 	height: 40px;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	box-shadow: 0 2px 3px var(--gray-light);
+}
+
+.nav {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+
+	&__section {
+		display: flex;
+		gap: 12px;
+	}
+
+	span {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.color_input {
+	visibility: hidden;
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	transform: translateX(-50%);
 }
