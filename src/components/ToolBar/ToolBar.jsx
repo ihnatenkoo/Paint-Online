@@ -53,10 +53,10 @@ const ToolBar = () => {
 					</button>
 				</div>
 				<div className={s.nav__section}>
-					<button>
+					<button onClick={() => canvasState.undo()}>
 						<span className='material-icons-outlined'>undo</span>
 					</button>
-					<button>
+					<button onClick={() => canvasState.redo()}>
 						<span className='material-icons-outlined'>redo</span>
 					</button>
 					<button>
