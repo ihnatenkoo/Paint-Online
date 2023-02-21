@@ -1,6 +1,8 @@
 import React from 'react';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
+import Brush from '../../tools/Brush';
+import Circle from '../../tools/Circle';
 import Rectangle from '../../tools/Rectangle';
 import s from './ToolBar.module.scss';
 
@@ -21,7 +23,9 @@ const ToolBar = () => {
 							check_box_outline_blank
 						</span>
 					</button>
-					<button>
+					<button
+						onClick={() => toolState.setTool(new Circle(canvasState.canvas))}
+					>
 						<span className='material-icons-outlined'>circle</span>
 					</button>
 					<button>
