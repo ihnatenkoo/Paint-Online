@@ -1,6 +1,6 @@
-import Brush from './Brush';
+import { Brush } from './Brush';
 
-export default class Eraser extends Brush {
+export class Eraser extends Brush {
 	constructor(canvas) {
 		super(canvas);
 	}

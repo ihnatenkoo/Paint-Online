@@ -1,10 +1,7 @@
 import React from 'react';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
-import Brush from '../../tools/Brush';
-import Circle from '../../tools/Circle';
-import Eraser from '../../tools/Eraser';
-import Rectangle from '../../tools/Rectangle';
+import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
 import s from './ToolBar.module.scss';
 
 const ToolBar = () => {
@@ -29,7 +26,9 @@ const ToolBar = () => {
 					>
 						<span className='material-icons-outlined'>circle</span>
 					</button>
-					<button>
+					<button
+						onClick={() => toolState.setTool(new Line(canvasState.canvas))}
+					>
 						<span className='material-icons-outlined'>timeline</span>
 					</button>
 					<button
