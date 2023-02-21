@@ -5,6 +5,11 @@ import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
 import s from './ToolBar.module.scss';
 
 const ToolBar = () => {
+	const onChangeColor = (e) => {
+		toolState.setStrokeColor(e.target.value);
+		toolState.setFillColor(e.target.value);
+	};
+
 	return (
 		<section className={s.tool}>
 			<nav className={s.nav}>
@@ -39,7 +44,11 @@ const ToolBar = () => {
 					<button>
 						<label>
 							<span className='material-icons-outlined'>color_lens</span>
-							<input type='color' className={s.color_input} />
+							<input
+								onChange={onChangeColor}
+								type='color'
+								className={s.color_input}
+							/>
 						</label>
 					</button>
 				</div>

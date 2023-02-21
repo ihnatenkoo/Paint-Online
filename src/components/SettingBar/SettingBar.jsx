@@ -15,6 +15,17 @@ const SettingBar = () => {
 				max={50}
 				defaultValue={1}
 			/>
+			<label
+				htmlFor='stroke-color'
+				style={{ marginLeft: '24px', marginRight: '8px' }}
+			>
+				Stroke Color:
+			</label>
+			<input
+				onChange={(e) => toolState.setStrokeColor(e.target.value)}
+				id='stroke-color'
+				type='color'
+			/>
 		</section>
 	);
 };
