@@ -3,6 +3,7 @@ import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import Brush from '../../tools/Brush';
 import Circle from '../../tools/Circle';
+import Eraser from '../../tools/Eraser';
 import Rectangle from '../../tools/Rectangle';
 import s from './ToolBar.module.scss';
 
@@ -31,7 +32,9 @@ const ToolBar = () => {
 					<button>
 						<span className='material-icons-outlined'>timeline</span>
 					</button>
-					<button>
+					<button
+						onClick={() => toolState.setTool(new Eraser(canvasState.canvas))}
+					>
 						<span className='material-icons-outlined'>auto_fix_normal</span>
 					</button>
 					<button>
