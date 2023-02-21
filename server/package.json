@@ -1,0 +1,18 @@
+{
+	"name": "paint-online",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index.js"
+	},
+	"author": "Dmytro Ihnatenko",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.2",
+		"express-ws": "^5.0.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.20"
+	}
+}
