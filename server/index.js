@@ -19,7 +19,7 @@ app.ws('/', (ws, req) => {
 	});
 });
 
-app.listen(PORT, () => console.log(`server started on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
 
 const connectionHandler = (ws, msg) => {
 	ws.id = msg.id;
