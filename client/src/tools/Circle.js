@@ -1,8 +1,8 @@
 import Tool from './Tool';
 
 export class Circle extends Tool {
-	constructor(canvas) {
-		super(canvas);
+	constructor(canvas, socked, id) {
+		super(canvas, socked, id);
 		this.listen();
 	}
 
@@ -14,6 +14,18 @@ export class Circle extends Tool {
 
 	mouseUpHandler(e) {
 		this.mouseDown = false;
+		this.socket.send(
+			JSON.stringify({
+				method: 'draw',
+				id: this.id,
+				figure: {
+					type: 'circle',
+					x: this.startX,
+					y: this.startY,
+					r: this.r,
+				},
+			})
+		);
 	}
 
 	mouseDownHandler(e) {
@@ -31,15 +43,15 @@ export class Circle extends Tool {
 			let currentY = e.pageY - e.target.offsetTop;
 			let width = currentX - this.startX;
 			let height = currentY - this.startY;
-			let r = Math.sqrt(width ** 2 + height ** 2);
-			this.draw(this.startX, this.startY, r);
+			this.r = Math.sqrt(width ** 2 + height ** 2);
+			this.draw(this.startX, this.startY, this.r);
 		}
 	}
 
 	draw(x, y, r) {
 		const img = new Image();
 		img.src = this.saved;
-		img.onload = async function () {
+		img.onload = function () {
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.beginPath();
@@ -47,5 +59,12 @@ export class Circle extends Tool {
 			this.ctx.fill();
 			this.ctx.stroke();
 		}.bind(this);
+	}
+
+	static staticDraw(ctx, x, y, r) {
+		ctx.beginPath();
+		ctx.arc(x, y, r, 0, 2 * Math.PI);
+		ctx.fill();
+		ctx.stroke();
 	}
 }

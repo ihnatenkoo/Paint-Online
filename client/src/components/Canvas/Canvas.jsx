@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
-import { Brush, Rectangle } from '../../tools/';
+import { Brush, Circle, Rectangle } from '../../tools/';
 import s from './Canvas.module.scss';
 
 const Canvas = observer(() => {
@@ -65,6 +65,8 @@ const Canvas = observer(() => {
 				);
 				ctx.beginPath();
 				break;
+			case 'circle':
+				Circle.staticDraw(ctx, figure.x, figure.y, figure.r);
 			case 'finish':
 				ctx.beginPath();
 		}
