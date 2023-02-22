@@ -15,12 +15,28 @@ const ToolBar = () => {
 			<nav className={s.nav}>
 				<div className={s.nav__section}>
 					<button
-						onClick={() => toolState.setTool(new Brush(canvasState.canvas))}
+						onClick={() =>
+							toolState.setTool(
+								new Brush(
+									canvasState.canvas,
+									canvasState.socket,
+									canvasState.sessionId
+								)
+							)
+						}
 					>
 						<span className='material-icons-outlined'>edit</span>
 					</button>
 					<button
-						onClick={() => toolState.setTool(new Rectangle(canvasState.canvas))}
+						onClick={() =>
+							toolState.setTool(
+								new Rectangle(
+									canvasState.canvas,
+									canvasState.socket,
+									canvasState.sessionId
+								)
+							)
+						}
 					>
 						<span className='material-icons-outlined'>
 							check_box_outline_blank
