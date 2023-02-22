@@ -1,10 +1,10 @@
+import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Line extends Tool {
-	constructor(canvas) {
-		super(canvas);
+	constructor(canvas, socket, id) {
+		super(canvas, socket, id);
 		this.listen();
-		this.name = 'Line';
 	}
 
 	listen() {
@@ -13,8 +13,29 @@ export class Line extends Tool {
 		this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
+	mouseUpHandler(e) {
+		this.mouseDown = false;
+		this.socket.send(
+			JSON.stringify({
+				method: 'draw',
+				id: this.id,
+				figure: {
+					type: 'line',
+					x: this.x,
+					y: this.y,
+					currentX: this.currentX,
+					currentY: this.currentY,
+					color: this.ctx.strokeStyle,
+					width: this.ctx.lineWidth,
+				},
+			})
+		);
+	}
+
 	mouseDownHandler(e) {
 		this.mouseDown = true;
+		this.ctx.strokeStyle = toolState.strokeStyle;
+		this.ctx.lineWidth = toolState.lineWidth;
 		this.currentX = e.pageX - e.target.offsetLeft;
 		this.currentY = e.pageY - e.target.offsetTop;
 		this.ctx.beginPath();
@@ -22,20 +43,18 @@ export class Line extends Tool {
 		this.saved = this.canvas.toDataURL();
 	}
 
-	mouseUpHandler(e) {
-		this.mouseDown = false;
-	}
-
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+			this.x = e.pageX - e.target.offsetLeft;
+			this.y = e.pageY - e.target.offsetTop;
+			this.draw(this.x, this.y);
 		}
 	}
 
 	draw(x, y) {
 		const img = new Image();
 		img.src = this.saved;
-		img.onload = async function () {
+		img.onload = function () {
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.beginPath();
@@ -43,5 +62,14 @@ export class Line extends Tool {
 			this.ctx.lineTo(x, y);
 			this.ctx.stroke();
 		}.bind(this);
+	}
+
+	static staticDraw(ctx, x, y, currentX, currentY, color, lineWidth) {
+		ctx.strokeStyle = color;
+		ctx.lineWidth = lineWidth;
+		ctx.beginPath();
+		ctx.moveTo(currentX, currentY);
+		ctx.lineTo(x, y);
+		ctx.stroke();
 	}
 }
