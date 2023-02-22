@@ -1,3 +1,4 @@
+import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Rectangle extends Tool {
@@ -35,6 +36,9 @@ export class Rectangle extends Tool {
 
 	mouseDownHandler(e) {
 		this.mouseDown = true;
+		this.ctx.fillStyle = toolState.fillStyle;
+		this.ctx.strokeStyle = toolState.strokeStyle;
+		this.ctx.lineWidth = toolState.lineWidth;
 		this.ctx.beginPath();
 		this.startX = e.pageX - e.target.offsetLeft;
 		this.startY = e.pageY - e.target.offsetTop;
