@@ -50,7 +50,7 @@ const Canvas = observer(() => {
 		const ctx = canvasRef.current.getContext('2d');
 		switch (figure.type) {
 			case 'brush':
-				Brush.draw(ctx, figure.x, figure.y);
+				Brush.draw(ctx, figure.x, figure.y, figure.color, figure.width);
 				break;
 			case 'rectangle':
 				Rectangle.staticDraw(
@@ -81,7 +81,7 @@ const Canvas = observer(() => {
 				ref={canvasRef}
 				width={600}
 				height={400}
-			></canvas>
+			/>
 		</section>
 	);
 });

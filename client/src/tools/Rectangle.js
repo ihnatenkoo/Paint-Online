@@ -64,9 +64,9 @@ export class Rectangle extends Tool {
 		};
 	}
 
-	static staticDraw(ctx, x, y, w, h, color, strokeColor, lineWidth) {
+	static staticDraw(ctx, x, y, w, h, color, strokeStyle, lineWidth) {
 		ctx.fillStyle = color;
-		ctx.strokeStyle = strokeColor;
+		ctx.strokeStyle = strokeStyle;
 		ctx.lineWidth = lineWidth;
 		ctx.beginPath();
 		ctx.rect(x, y, w, h);

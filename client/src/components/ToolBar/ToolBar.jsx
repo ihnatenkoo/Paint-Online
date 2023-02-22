@@ -6,8 +6,7 @@ import s from './ToolBar.module.scss';
 
 const ToolBar = () => {
 	const onChangeColor = (e) => {
-		toolState.setStrokeColor(e.target.value);
-		toolState.setFillColor(e.target.value);
+		toolState.setFillStyle(e.target.value);
 	};
 
 	return (

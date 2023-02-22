@@ -22,7 +22,7 @@ const SettingBar = () => {
 				Stroke Color:
 			</label>
 			<input
-				onChange={(e) => toolState.setStrokeColor(e.target.value)}
+				onChange={(e) => toolState.setStrokeStyle(e.target.value)}
 				id='stroke-color'
 				type='color'
 			/>

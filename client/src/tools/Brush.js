@@ -1,3 +1,4 @@
+import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Brush extends Tool {
@@ -27,6 +28,8 @@ export class Brush extends Tool {
 
 	mouseDownHandler(e) {
 		this.mouseDown = true;
+		this.ctx.strokeStyle = toolState.strokeStyle;
+		this.ctx.lineWidth = toolState.lineWidth;
 		this.ctx.beginPath();
 		this.ctx.moveTo(
 			e.pageX - e.target.offsetLeft,
@@ -44,13 +47,17 @@ export class Brush extends Tool {
 						type: 'brush',
 						x: e.pageX - e.target.offsetLeft,
 						y: e.pageY - e.target.offsetTop,
+						color: this.ctx.strokeStyle,
+						width: this.ctx.lineWidth,
 					},
 				})
 			);
 		}
 	}
 
-	static draw(ctx, x, y) {
+	static draw(ctx, x, y, color, lineWidth) {
+		ctx.strokeStyle = color;
+		ctx.lineWidth = lineWidth;
 		ctx.lineTo(x, y);
 		ctx.stroke();
 	}
