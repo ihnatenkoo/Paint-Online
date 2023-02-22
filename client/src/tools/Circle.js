@@ -1,3 +1,4 @@
+import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Circle extends Tool {
@@ -23,6 +24,9 @@ export class Circle extends Tool {
 					x: this.startX,
 					y: this.startY,
 					r: this.r,
+					strokeWidth: this.ctx.lineWidth,
+					stroke: this.ctx.strokeStyle,
+					fill: this.ctx.fillStyle,
 				},
 			})
 		);
@@ -30,6 +34,9 @@ export class Circle extends Tool {
 
 	mouseDownHandler(e) {
 		this.mouseDown = true;
+		this.ctx.fillStyle = toolState.fillStyle;
+		this.ctx.strokeStyle = toolState.strokeStyle;
+		this.ctx.lineWidth = toolState.lineWidth;
 		let canvasData = this.canvas.toDataURL();
 		this.ctx.beginPath();
 		this.startX = e.pageX - e.target.offsetLeft;
@@ -61,8 +68,11 @@ export class Circle extends Tool {
 		}.bind(this);
 	}
 
-	static staticDraw(ctx, x, y, r) {
+	static staticDraw(ctx, x, y, r, strokeWidth, stroke, fill) {
 		ctx.beginPath();
+		ctx.fillStyle = fill;
+		ctx.strokeStyle = stroke;
+		ctx.lineWidth = strokeWidth;
 		ctx.arc(x, y, r, 0, 2 * Math.PI);
 		ctx.fill();
 		ctx.stroke();

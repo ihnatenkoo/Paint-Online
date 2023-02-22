@@ -59,14 +59,22 @@ const Canvas = observer(() => {
 					figure.y,
 					figure.width,
 					figure.height,
-					figure.color,
-					figure.strokeColor,
-					figure.lineWidth
+					figure.strokeWidth,
+					figure.stroke,
+					figure.fill
 				);
 				ctx.beginPath();
 				break;
 			case 'circle':
-				Circle.staticDraw(ctx, figure.x, figure.y, figure.r);
+				Circle.staticDraw(
+					ctx,
+					figure.x,
+					figure.y,
+					figure.r,
+					figure.strokeWidth,
+					figure.stroke,
+					figure.fill
+				);
 			case 'finish':
 				ctx.beginPath();
 		}

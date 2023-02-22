@@ -26,9 +26,9 @@ export class Rectangle extends Tool {
 					y: this.startY,
 					width: this.width,
 					height: this.height,
-					color: this.ctx.fillStyle,
-					strokeColor: this.ctx.strokeStyle,
-					lineWidth: this.ctx.lineWidth,
+					fill: this.ctx.fillStyle,
+					stroke: this.ctx.strokeStyle,
+					strokeWidth: this.ctx.lineWidth,
 				},
 			})
 		);
@@ -68,10 +68,10 @@ export class Rectangle extends Tool {
 		};
 	}
 
-	static staticDraw(ctx, x, y, w, h, color, strokeStyle, lineWidth) {
-		ctx.fillStyle = color;
-		ctx.strokeStyle = strokeStyle;
-		ctx.lineWidth = lineWidth;
+	static staticDraw(ctx, x, y, w, h, strokeWidth, stroke, fill) {
+		ctx.fillStyle = fill;
+		ctx.strokeStyle = stroke;
+		ctx.lineWidth = strokeWidth;
 		ctx.beginPath();
 		ctx.rect(x, y, w, h);
 		ctx.fill();
