@@ -52,6 +52,8 @@ const Canvas = observer(() => {
 			case 'brush':
 				Brush.draw(ctx, figure.x, figure.y);
 				break;
+			case 'finish':
+				ctx.beginPath();
 		}
 	};
 
