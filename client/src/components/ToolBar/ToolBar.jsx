@@ -5,10 +5,6 @@ import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
 import s from './ToolBar.module.scss';
 
 const ToolBar = () => {
-	const onChangeColor = (e) => {
-		toolState.setFillStyle(e.target.value);
-	};
-
 	return (
 		<section className={s.tool}>
 			<nav className={s.nav}>
@@ -55,16 +51,6 @@ const ToolBar = () => {
 						onClick={() => toolState.setTool(new Eraser(canvasState.canvas))}
 					>
 						<span className='material-icons-outlined'>auto_fix_normal</span>
-					</button>
-					<button>
-						<label>
-							<span className='material-icons-outlined'>color_lens</span>
-							<input
-								onChange={onChangeColor}
-								type='color'
-								className={s.color_input}
-							/>
-						</label>
 					</button>
 				</div>
 				<div className={s.nav__section}>

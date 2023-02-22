@@ -26,6 +26,17 @@ const SettingBar = () => {
 				id='stroke-color'
 				type='color'
 			/>
+			<label
+				htmlFor='fill-color'
+				style={{ marginLeft: '24px', marginRight: '8px' }}
+			>
+				Fill Color:
+			</label>
+			<input
+				onChange={(e) => toolState.setFillStyle(e.target.value)}
+				id='fill-color'
+				type='color'
+			/>
 		</section>
 	);
 };
