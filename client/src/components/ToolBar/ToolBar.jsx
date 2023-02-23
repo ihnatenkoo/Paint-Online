@@ -4,7 +4,6 @@ import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
 import s from './ToolBar.module.scss';
-
 const ToolBar = () => {
 	const [activeTool, setActiveTool] = useState('brush');
 

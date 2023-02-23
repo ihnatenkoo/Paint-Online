@@ -45,6 +45,14 @@ export const drawHandler = (canvasRef, msg) => {
 		case 'eraser':
 			Eraser.staticDraw(ctx, figure.x, figure.y, figure.width);
 			break;
+		case 'undo-redo':
+			let img = new Image();
+			img.src = figure.img;
+			img.onload = () => {
+				ctx.clearRect(0, 0, msg.canvasWidth, msg.canvasHeight);
+				ctx.drawImage(img, 0, 0, msg.canvasWidth, msg.canvasHeight);
+			};
+			break;
 		case 'finish':
 			ctx.beginPath();
 	}

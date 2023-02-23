@@ -37,8 +37,8 @@ class CanvasState {
 	}
 
 	undo() {
-		let ctx = this.canvas.getContext('2d');
 		if (this.undoList.length > 0) {
+			let ctx = this.canvas.getContext('2d');
 			let dataUrl = this.undoList.pop();
 			this.redoList.push(this.canvas.toDataURL());
 			let img = new Image();
@@ -47,8 +47,18 @@ class CanvasState {
 				ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 			};
-		} else {
-			ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.socket.send(
+				JSON.stringify({
+					method: 'draw',
+					id: this.sessionId,
+					figure: {
+						type: 'undo-redo',
+						img: dataUrl,
+					},
+					canvasWidth: this.canvas.width,
+					canvasHeight: this.canvas.height,
+				})
+			);
 		}
 	}
 
@@ -63,6 +73,18 @@ class CanvasState {
 				ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 			};
+			this.socket.send(
+				JSON.stringify({
+					method: 'draw',
+					id: this.sessionId,
+					figure: {
+						type: 'undo-redo',
+						img: dataUrl,
+					},
+					canvasWidth: this.canvas.width,
+					canvasHeight: this.canvas.height,
+				})
+			);
 		}
 	}
 }
