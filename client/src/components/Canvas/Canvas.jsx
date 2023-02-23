@@ -3,7 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
-import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
+import { Brush } from '../../tools/';
+import { drawHandler } from '../../utils/drawHandler';
 import s from './Canvas.module.scss';
 
 const Canvas = observer(() => {
@@ -38,7 +39,7 @@ const Canvas = observer(() => {
 						console.log(`User ${msg.username} connected`);
 						break;
 					case 'draw':
-						drawHandler(msg);
+						drawHandler(canvasRef, msg);
 						break;
 				}
 			};
@@ -51,56 +52,6 @@ const Canvas = observer(() => {
 		}
 	}, [canvasState.userName]);
 
-	const drawHandler = (msg) => {
-		const figure = msg.figure;
-		const ctx = canvasRef.current.getContext('2d');
-		switch (figure.type) {
-			case 'brush':
-				Brush.staticDraw(ctx, figure.x, figure.y, figure.color, figure.width);
-				break;
-			case 'rectangle':
-				Rectangle.staticDraw(
-					ctx,
-					figure.x,
-					figure.y,
-					figure.width,
-					figure.height,
-					figure.strokeWidth,
-					figure.stroke,
-					figure.fill
-				);
-				ctx.beginPath();
-				break;
-			case 'circle':
-				Circle.staticDraw(
-					ctx,
-					figure.x,
-					figure.y,
-					figure.r,
-					figure.strokeWidth,
-					figure.stroke,
-					figure.fill
-				);
-				break;
-			case 'line':
-				Line.staticDraw(
-					ctx,
-					figure.x,
-					figure.y,
-					figure.currentX,
-					figure.currentY,
-					figure.color,
-					figure.width
-				);
-				break;
-			case 'eraser':
-				Eraser.staticDraw(ctx, figure.x, figure.y, figure.width);
-				break;
-			case 'finish':
-				ctx.beginPath();
-		}
-	};
-
 	const mouseDownHandler = () => {
 		canvasState.pushToUndo(canvasRef.current.toDataURL());
 	};
@@ -110,8 +61,8 @@ const Canvas = observer(() => {
 			<canvas
 				onMouseDown={mouseDownHandler}
 				ref={canvasRef}
-				width={600}
-				height={400}
+				width={800}
+				height={600}
 			/>
 		</section>
 	);
