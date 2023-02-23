@@ -4,6 +4,7 @@ import Tool from './Tool';
 export class Brush extends Tool {
 	constructor(canvas, socket, id) {
 		super(canvas, socket, id);
+		this.name = 'brush';
 		this.listen();
 	}
 
@@ -44,7 +45,7 @@ export class Brush extends Tool {
 					method: 'draw',
 					id: this.id,
 					figure: {
-						type: 'brush',
+						type: this.name,
 						x: e.pageX - e.target.offsetLeft,
 						y: e.pageY - e.target.offsetTop,
 						color: this.ctx.strokeStyle,
@@ -55,7 +56,7 @@ export class Brush extends Tool {
 		}
 	}
 
-	static draw(ctx, x, y, color, lineWidth) {
+	static staticDraw(ctx, x, y, color, lineWidth) {
 		ctx.strokeStyle = color;
 		ctx.lineWidth = lineWidth;
 		ctx.lineTo(x, y);
