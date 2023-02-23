@@ -8,7 +8,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Routes>
-				<Route path='/:id' element={<App />}></Route>
+				<Route path='/:id' element={<App />} />
 				<Route
 					path='*'
 					element={<Navigate to={`f${(+new Date()).toString(16)}`} replace />}

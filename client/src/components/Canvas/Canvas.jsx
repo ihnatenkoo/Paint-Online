@@ -42,6 +42,12 @@ const Canvas = observer(() => {
 						break;
 				}
 			};
+
+			socket.onclose = () => {
+				console.log('The connection has been closed successfully.');
+			};
+
+			return () => socket.close();
 		}
 	}, [canvasState.userName]);
 
