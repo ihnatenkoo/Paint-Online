@@ -1,6 +1,6 @@
 @import '../../mixins/container.scss';
 
-.tool {
+.section {
 	@include container;
 
 	height: 40px;
@@ -14,27 +14,4 @@
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-
-	&__section {
-		display: flex;
-		gap: 12px;
-	}
-
-	span {
-		&.active {
-			text-decoration: underline;
-			color: var(--green);
-		}
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-}
-
-.color_input {
-	visibility: hidden;
-	position: absolute;
-	top: 10%;
-	left: 50%;
-	transform: translateX(-50%);
 }

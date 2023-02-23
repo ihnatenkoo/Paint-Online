@@ -1,0 +1,14 @@
+.nav {
+	display: flex;
+	gap: 12px;
+
+	span {
+		&.active {
+			text-decoration: underline;
+			color: var(--green);
+		}
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

@@ -1,91 +1,17 @@
-import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
-import canvasState from '../../store/canvasState';
-import toolState from '../../store/toolState';
-import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
+import React from 'react';
+import DrawMenu from './DrawMenu/DrawMenu';
+import DrawTool from './DrawTools/DrawTools';
 import s from './ToolBar.module.scss';
 
-const ToolBar = observer(() => {
-	const [activeTool, setActiveTool] = useState('brush');
-
-	const onClickHandler = (name, tool) => {
-		setActiveTool(name);
-		toolState.setTool(
-			new tool(canvasState.canvas, canvasState.socket, canvasState.sessionId)
-		);
-	};
-
+const ToolBar = () => {
 	return (
-		<section className={s.tool}>
+		<section className={s.section}>
 			<nav className={s.nav}>
-				<div className={s.nav__section}>
-					<button onClick={() => onClickHandler('brush', Brush)}>
-						<span
-							className={cn('material-icons-outlined', {
-								[s.active]: activeTool === 'brush',
-							})}
-						>
-							edit
-						</span>
-					</button>
-					<button onClick={() => onClickHandler('rectangle', Rectangle)}>
-						<span
-							className={cn('material-icons-outlined', {
-								[s.active]: activeTool === 'rectangle',
-							})}
-						>
-							check_box_outline_blank
-						</span>
-					</button>
-					<button onClick={() => onClickHandler('circle', Circle)}>
-						<span
-							className={cn('material-icons-outlined', {
-								[s.active]: activeTool === 'circle',
-							})}
-						>
-							circle
-						</span>
-					</button>
-					<button onClick={() => onClickHandler('line', Line)}>
-						<span
-							className={cn('material-icons-outlined', {
-								[s.active]: activeTool === 'line',
-							})}
-						>
-							timeline
-						</span>
-					</button>
-					<button onClick={() => onClickHandler('eraser', Eraser)}>
-						<span
-							className={cn('material-icons-outlined', {
-								[s.active]: activeTool === 'eraser',
-							})}
-						>
-							auto_fix_normal
-						</span>
-					</button>
-				</div>
-				<div className={s.nav__section}>
-					<button
-						onClick={() => canvasState.undo()}
-						disabled={!canvasState.undoList.length}
-					>
-						<span className='material-icons-outlined'>undo</span>
-					</button>
-					<button
-						onClick={() => canvasState.redo()}
-						disabled={!canvasState.redoList.length}
-					>
-						<span className='material-icons-outlined'>redo</span>
-					</button>
-					<button>
-						<span className='material-icons-outlined'>save</span>
-					</button>
-				</div>
+				<DrawTool />
+				<DrawMenu />
 			</nav>
 		</section>
 	);
-});
+};
 
 export default ToolBar;
