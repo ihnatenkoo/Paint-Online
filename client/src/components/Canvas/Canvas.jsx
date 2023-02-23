@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,6 +14,7 @@ const Canvas = observer(() => {
 
 	useEffect(() => {
 		canvasState.setCanvas(canvasRef.current);
+		drawCurrentImg();
 	}, []);
 
 	useEffect(() => {
@@ -52,14 +54,39 @@ const Canvas = observer(() => {
 		}
 	}, [canvasState.userName]);
 
+	const drawCurrentImg = async () => {
+		let ctx = canvasRef.current.getContext('2d');
+		const { data } = await axios.get(`http://localhost:5000/image?id=${id}`);
+
+		let img = new Image();
+		img.src = data;
+		img.onload = () => {
+			ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+			ctx.drawImage(
+				img,
+				0,
+				0,
+				canvasRef.current.width,
+				canvasRef.current.height
+			);
+		};
+	};
+
 	const mouseDownHandler = () => {
 		canvasState.pushToUndo(canvasRef.current.toDataURL());
+	};
+
+	const mouseUpHandler = () => {
+		axios.post(`http://localhost:5000/image?id=${id}`, {
+			img: canvasRef.current.toDataURL(),
+		});
 	};
 
 	return (
 		<section className={s.wrapper}>
 			<canvas
 				onMouseDown={mouseDownHandler}
+				onMouseUp={mouseUpHandler}
 				ref={canvasRef}
 				width={800}
 				height={600}
