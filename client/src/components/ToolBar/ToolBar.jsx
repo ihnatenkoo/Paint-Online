@@ -1,10 +1,12 @@
 import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import { Brush, Circle, Eraser, Line, Rectangle } from '../../tools/';
 import s from './ToolBar.module.scss';
-const ToolBar = () => {
+
+const ToolBar = observer(() => {
 	const [activeTool, setActiveTool] = useState('brush');
 
 	const onClickHandler = (name, tool) => {
@@ -65,10 +67,16 @@ const ToolBar = () => {
 					</button>
 				</div>
 				<div className={s.nav__section}>
-					<button onClick={() => canvasState.undo()}>
+					<button
+						onClick={() => canvasState.undo()}
+						disabled={!canvasState.undoList.length}
+					>
 						<span className='material-icons-outlined'>undo</span>
 					</button>
-					<button onClick={() => canvasState.redo()}>
+					<button
+						onClick={() => canvasState.redo()}
+						disabled={!canvasState.redoList.length}
+					>
 						<span className='material-icons-outlined'>redo</span>
 					</button>
 					<button>
@@ -78,6 +86,6 @@ const ToolBar = () => {
 			</nav>
 		</section>
 	);
-};
+});
 
 export default ToolBar;
