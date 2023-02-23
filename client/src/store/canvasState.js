@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { makeAutoObservable } from 'mobx';
+import { drawImg } from '../utils/drawCertainImg';
 
 class CanvasState {
 	canvas = null;
@@ -39,21 +41,22 @@ class CanvasState {
 	undo() {
 		if (this.undoList.length > 0) {
 			let ctx = this.canvas.getContext('2d');
-			let dataUrl = this.undoList.pop();
+			let imageData = this.undoList.pop();
 			this.redoList.push(this.canvas.toDataURL());
-			let img = new Image();
-			img.src = dataUrl;
-			img.onload = () => {
-				ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-			};
+
+			drawImg(ctx, imageData, this.canvas.width, this.canvas.height);
+
+			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
+				img: imageData,
+			});
+
 			this.socket.send(
 				JSON.stringify({
 					method: 'draw',
 					id: this.sessionId,
 					figure: {
 						type: 'undo-redo',
-						img: dataUrl,
+						img: imageData,
 					},
 					canvasWidth: this.canvas.width,
 					canvasHeight: this.canvas.height,
@@ -63,23 +66,24 @@ class CanvasState {
 	}
 
 	redo() {
-		let ctx = this.canvas.getContext('2d');
 		if (this.redoList.length > 0) {
-			let dataUrl = this.redoList.pop();
+			let ctx = this.canvas.getContext('2d');
+			let imageData = this.redoList.pop();
 			this.undoList.push(this.canvas.toDataURL());
-			let img = new Image();
-			img.src = dataUrl;
-			img.onload = () => {
-				ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-			};
+
+			drawImg(ctx, imageData, this.canvas.width, this.canvas.height);
+			console.log(imageData);
+			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
+				img: imageData,
+			});
+
 			this.socket.send(
 				JSON.stringify({
 					method: 'draw',
 					id: this.sessionId,
 					figure: {
 						type: 'undo-redo',
-						img: dataUrl,
+						img: imageData,
 					},
 					canvasWidth: this.canvas.width,
 					canvasHeight: this.canvas.height,

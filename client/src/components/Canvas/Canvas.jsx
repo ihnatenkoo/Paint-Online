@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import { Brush } from '../../tools/';
+import { drawImg } from '../../utils/drawCertainImg';
 import { drawHandler } from '../../utils/drawHandler';
 import s from './Canvas.module.scss';
 
@@ -14,7 +15,7 @@ const Canvas = observer(() => {
 
 	useEffect(() => {
 		canvasState.setCanvas(canvasRef.current);
-		drawCurrentImg();
+		drawCurrentCanvas();
 	}, []);
 
 	useEffect(() => {
@@ -54,22 +55,12 @@ const Canvas = observer(() => {
 		}
 	}, [canvasState.userName]);
 
-	const drawCurrentImg = async () => {
+	const drawCurrentCanvas = async () => {
 		let ctx = canvasRef.current.getContext('2d');
-		const { data } = await axios.get(`http://localhost:5000/image?id=${id}`);
-
-		let img = new Image();
-		img.src = data;
-		img.onload = () => {
-			ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-			ctx.drawImage(
-				img,
-				0,
-				0,
-				canvasRef.current.width,
-				canvasRef.current.height
-			);
-		};
+		const { data: imageData } = await axios.get(
+			`http://localhost:5000/image?id=${id}`
+		);
+		drawImg(ctx, imageData, canvasRef.current.width, canvasRef.current.height);
 	};
 
 	const mouseDownHandler = () => {
