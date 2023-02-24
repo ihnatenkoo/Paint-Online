@@ -42,6 +42,9 @@ const Canvas = observer(() => {
 					case 'connection':
 						toast.success(`${msg.username} online`);
 						break;
+					case 'info':
+						toast.info(`${msg.text}`);
+						break;
 					case 'draw':
 						drawHandler(canvasRef, msg);
 						break;
@@ -49,7 +52,6 @@ const Canvas = observer(() => {
 			};
 
 			socket.onclose = () => {
-				toast.error(`${msg.username} offline`, {});
 				console.log('The connection has been closed successfully.');
 			};
 
@@ -69,8 +71,8 @@ const Canvas = observer(() => {
 		canvasState.pushToUndo(canvasRef.current.toDataURL());
 	};
 
-	const mouseUpHandler = () => {
-		axios.post(`http://localhost:5000/image?id=${id}`, {
+	const mouseUpHandler = async () => {
+		await axios.post(`http://localhost:5000/image?id=${id}`, {
 			img: canvasRef.current.toDataURL(),
 		});
 	};

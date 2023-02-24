@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import canvasState from '../../../store/canvasState';
 import toolState from '../../../store/toolState';
 import { Brush, Circle, Eraser, Line, Rectangle } from '../../../tools';
@@ -7,9 +8,17 @@ import s from './DrawTools.module.scss';
 
 const DrawTool = () => {
 	const [activeTool, setActiveTool] = useState('brush');
+	const { id } = useParams();
 
-	const onClickHandler = (name, tool) => {
-		setActiveTool(name);
+	const onClickHandler = (toolName, tool) => {
+		canvasState.socket.send(
+			JSON.stringify({
+				id,
+				method: 'info',
+				text: `${canvasState.userName} chose ${toolName}`,
+			})
+		);
+		setActiveTool(toolName);
 		toolState.setTool(
 			new tool(canvasState.canvas, canvasState.socket, canvasState.sessionId)
 		);
