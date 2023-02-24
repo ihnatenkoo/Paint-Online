@@ -25,6 +25,9 @@ app.ws('/', (ws, req) => {
 			case 'connection':
 				connectionHandler(ws, msg);
 				break;
+			case 'info':
+				broadcastConnection(ws, msg);
+				break;
 			case 'draw':
 				broadcastConnection(ws, msg);
 				break;
@@ -53,7 +56,8 @@ app.post('/image', (req, res) => {
 			data,
 			'base64'
 		);
-		res.status(200);
+
+		res.status(200).json({ message: 'Image saved' });
 	} catch (error) {
 		res.status(500).json(error);
 	}

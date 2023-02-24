@@ -2,12 +2,10 @@ import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import canvasState from '../../store/canvasState';
-import toolState from '../../store/toolState';
-import { Brush } from '../../tools/';
+import { appSocket } from '../../utils/appSocket';
 import { drawImg } from '../../utils/drawCertainImg';
-import { drawHandler } from '../../utils/drawHandler';
 import s from './Canvas.module.scss';
 
 const Canvas = observer(() => {
@@ -21,40 +19,7 @@ const Canvas = observer(() => {
 
 	useEffect(() => {
 		if (canvasState.userName) {
-			const socket = new WebSocket('ws://localhost:5000');
-			canvasState.setSocket(socket);
-			canvasState.setSessionId(id);
-			toolState.setTool(new Brush(canvasRef.current, socket, id));
-
-			socket.onopen = () => {
-				socket.send(
-					JSON.stringify({
-						id,
-						username: canvasState.userName,
-						method: 'connection',
-					})
-				);
-			};
-
-			socket.onmessage = (event) => {
-				let msg = JSON.parse(event.data);
-				switch (msg.method) {
-					case 'connection':
-						toast.success(`${msg.username} online`);
-						break;
-					case 'info':
-						toast.info(`${msg.text}`);
-						break;
-					case 'draw':
-						drawHandler(canvasRef, msg);
-						break;
-				}
-			};
-
-			socket.onclose = () => {
-				console.log('The connection has been closed successfully.');
-			};
-
+			const socket = appSocket(canvasRef, id);
 			return () => socket.close();
 		}
 	}, [canvasState.userName]);
