@@ -2,6 +2,7 @@ import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import { Brush } from '../../tools/';
@@ -39,7 +40,7 @@ const Canvas = observer(() => {
 				let msg = JSON.parse(event.data);
 				switch (msg.method) {
 					case 'connection':
-						console.log(`User ${msg.username} connected`);
+						toast.success(`${msg.username} online`);
 						break;
 					case 'draw':
 						drawHandler(canvasRef, msg);
@@ -48,6 +49,7 @@ const Canvas = observer(() => {
 			};
 
 			socket.onclose = () => {
+				toast.error(`${msg.username} offline`, {});
 				console.log('The connection has been closed successfully.');
 			};
 
@@ -75,6 +77,7 @@ const Canvas = observer(() => {
 
 	return (
 		<section className={s.wrapper}>
+			<ToastContainer className={s.toast} hideProgressBar={true} />
 			<canvas
 				onMouseDown={mouseDownHandler}
 				onMouseUp={mouseUpHandler}
