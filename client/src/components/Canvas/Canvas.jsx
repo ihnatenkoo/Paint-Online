@@ -7,7 +7,7 @@ import { useSocketConnection } from '../../hooks/useSocketConnection';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
 import { Brush } from '../../tools';
-import { drawImg } from '../../utils/drawCertainImg';
+import { drawCertainImg } from '../../utils/drawCertainImg';
 import s from './Canvas.module.scss';
 
 const Canvas = observer(() => {
@@ -18,16 +18,8 @@ const Canvas = observer(() => {
 	useEffect(() => {
 		toolState.setTool(new Brush(canvasRef.current, socket, room));
 		canvasState.canvas = canvasRef.current;
-		drawCurrentCanvas(canvasRef.current);
+		drawSavedCanvas(canvasRef.current);
 	}, []);
-
-	const drawCurrentCanvas = async (canvas) => {
-		let ctx = canvas.getContext('2d');
-		const { data: imageData } = await axios.get(
-			`http://localhost:5000/image?id=${room}`
-		);
-		drawImg(ctx, imageData, canvasRef.current.width, canvasRef.current.height);
-	};
 
 	const mouseDownHandler = (canvas) => {
 		canvasState.pushToUndo(canvas.toDataURL());
@@ -37,6 +29,19 @@ const Canvas = observer(() => {
 		await axios.post(`http://localhost:5000/image?id=${room}`, {
 			img: canvas.toDataURL(),
 		});
+	};
+
+	const drawSavedCanvas = async (canvas) => {
+		let ctx = canvas.getContext('2d');
+		const { data: imageData } = await axios.get(
+			`http://localhost:5000/image?id=${room}`
+		);
+		drawCertainImg(
+			ctx,
+			imageData,
+			canvasRef.current.width,
+			canvasRef.current.height
+		);
 	};
 
 	return (

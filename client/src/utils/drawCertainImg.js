@@ -1,4 +1,4 @@
-export const drawImg = (ctx, imgData, canvasWidth, canvasHeight) => {
+export const drawCertainImg = (ctx, imgData, canvasWidth, canvasHeight) => {
 	let img = new Image();
 	img.src = imgData;
 	img.onload = () => {

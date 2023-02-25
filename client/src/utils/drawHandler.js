@@ -1,5 +1,5 @@
 import { Brush, Circle, Eraser, Line, Rectangle } from '../tools/';
-import { drawImg } from './drawCertainImg';
+import { drawCertainImg } from './drawCertainImg';
 
 export const drawHandler = (canvas, msg) => {
 	const figure = msg.figure;
@@ -47,7 +47,7 @@ export const drawHandler = (canvas, msg) => {
 			Eraser.staticDraw(ctx, figure.x, figure.y, figure.width);
 			break;
 		case 'undo-redo':
-			drawImg(ctx, figure.img, msg.canvasWidth, msg.canvasHeight);
+			drawCertainImg(ctx, figure.img, msg.canvasWidth, msg.canvasHeight);
 			break;
 		case 'finish':
 			ctx.beginPath();

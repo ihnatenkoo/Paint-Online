@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { makeAutoObservable } from 'mobx';
-import { drawImg } from '../utils/drawCertainImg';
+import { drawCertainImg } from '../utils/drawCertainImg';
 
 class CanvasState {
 	canvas = null;
@@ -28,7 +28,7 @@ class CanvasState {
 			let imageData = this.undoList.pop();
 			this.redoList.push(this.canvas.toDataURL());
 
-			drawImg(ctx, imageData, this.canvas.width, this.canvas.height);
+			drawCertainImg(ctx, imageData, this.canvas.width, this.canvas.height);
 
 			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
 				img: imageData,
@@ -52,7 +52,7 @@ class CanvasState {
 			let imageData = this.redoList.pop();
 			this.undoList.push(this.canvas.toDataURL());
 
-			drawImg(ctx, imageData, this.canvas.width, this.canvas.height);
+			drawCertainImg(ctx, imageData, this.canvas.width, this.canvas.height);
 			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
 				img: imageData,
 			});
