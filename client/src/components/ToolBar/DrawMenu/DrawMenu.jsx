@@ -1,16 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import canvasState from '../../../store/canvasState';
+import { onDownloadCanvas } from '../../../utils/onDownloadCanvas';
 
 const DrawMenu = observer(() => {
-	const onDownload = () => {
-		const dataUrl = canvasState.canvas.toDataURL();
-		const a = document.createElement('a');
-		a.href = dataUrl;
-		a.download = canvasState.sessionId + '.jpg';
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
+	const onDownloadHandler = () => {
+		onDownloadCanvas(canvasState.canvas, canvasState.sessionId);
 	};
 
 	return (
@@ -27,7 +22,7 @@ const DrawMenu = observer(() => {
 			>
 				<span className='material-icons-outlined'>redo</span>
 			</button>
-			<button onClick={onDownload}>
+			<button onClick={onDownloadHandler}>
 				<span className='material-icons-outlined'>save</span>
 			</button>
 		</div>
