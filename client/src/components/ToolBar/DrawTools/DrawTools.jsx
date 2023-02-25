@@ -11,13 +11,11 @@ const DrawTool = () => {
 	const { id } = useParams();
 
 	const onClickHandler = (toolName, tool) => {
-		canvasState.socket.send(
-			JSON.stringify({
-				id,
-				method: 'info',
-				text: `${canvasState.userName} chose ${toolName}`,
-			})
-		);
+		canvasState.socket.emit('info', {
+			id,
+			text: `${canvasState.userName} chose ${toolName}`,
+		});
+
 		setActiveTool(toolName);
 		toolState.setTool(
 			new tool(canvasState.canvas, canvasState.socket, canvasState.sessionId)

@@ -15,7 +15,7 @@ const StartModal = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (name.length > 2) {
-			canvasState.setUserName(name);
+			canvasState.userName = name;
 			setShow(false);
 		}
 	};

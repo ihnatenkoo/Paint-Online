@@ -3,42 +3,39 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { useSocketConnection } from '../../hooks/useSocketConnection';
 import canvasState from '../../store/canvasState';
-import { appSocket } from '../../utils/appSocket';
+import toolState from '../../store/toolState';
+import { Brush } from '../../tools';
 import { drawImg } from '../../utils/drawCertainImg';
 import s from './Canvas.module.scss';
 
 const Canvas = observer(() => {
-	const { id } = useParams();
+	const { id: room } = useParams();
+	const { socket } = useSocketConnection(room);
 	const canvasRef = useRef(null);
 
 	useEffect(() => {
-		canvasState.setCanvas(canvasRef.current);
-		drawCurrentCanvas();
+		toolState.setTool(new Brush(canvasRef.current, socket, room));
+		canvasState.canvas = canvasRef.current;
+		drawCurrentCanvas(canvasRef.current);
 	}, []);
 
-	useEffect(() => {
-		if (canvasState.userName) {
-			const socket = appSocket(canvasRef, id);
-			return () => socket.close();
-		}
-	}, [canvasState.userName]);
-
-	const drawCurrentCanvas = async () => {
-		let ctx = canvasRef.current.getContext('2d');
+	const drawCurrentCanvas = async (canvas) => {
+		let ctx = canvas.getContext('2d');
 		const { data: imageData } = await axios.get(
-			`http://localhost:5000/image?id=${id}`
+			`http://localhost:5000/image?id=${room}`
 		);
 		drawImg(ctx, imageData, canvasRef.current.width, canvasRef.current.height);
 	};
 
-	const mouseDownHandler = () => {
-		canvasState.pushToUndo(canvasRef.current.toDataURL());
+	const mouseDownHandler = (canvas) => {
+		canvasState.pushToUndo(canvas.toDataURL());
 	};
 
-	const mouseUpHandler = async () => {
-		await axios.post(`http://localhost:5000/image?id=${id}`, {
-			img: canvasRef.current.toDataURL(),
+	const mouseUpHandler = async (canvas) => {
+		await axios.post(`http://localhost:5000/image?id=${room}`, {
+			img: canvas.toDataURL(),
 		});
 	};
 
@@ -46,8 +43,8 @@ const Canvas = observer(() => {
 		<section className={s.wrapper}>
 			<ToastContainer className={s.toast} hideProgressBar={true} />
 			<canvas
-				onMouseDown={mouseDownHandler}
-				onMouseUp={mouseUpHandler}
+				onMouseDown={() => mouseDownHandler(canvasRef.current)}
+				onMouseUp={() => mouseUpHandler(canvasRef.current)}
 				ref={canvasRef}
 				width={800}
 				height={600}

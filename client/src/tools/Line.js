@@ -15,21 +15,18 @@ export class Line extends Tool {
 
 	mouseUpHandler(e) {
 		this.mouseDown = false;
-		this.socket.send(
-			JSON.stringify({
-				method: 'draw',
-				id: this.id,
-				figure: {
-					type: 'line',
-					x: this.x,
-					y: this.y,
-					currentX: this.currentX,
-					currentY: this.currentY,
-					color: this.ctx.strokeStyle,
-					width: this.ctx.lineWidth,
-				},
-			})
-		);
+		this.socket.emit('draw', {
+			id: this.id,
+			figure: {
+				type: 'line',
+				x: this.x,
+				y: this.y,
+				currentX: this.currentX,
+				currentY: this.currentY,
+				color: this.ctx.strokeStyle,
+				width: this.ctx.lineWidth,
+			},
+		});
 	}
 
 	mouseDownHandler(e) {

@@ -1,9 +1,9 @@
 import { Brush, Circle, Eraser, Line, Rectangle } from '../tools/';
 import { drawImg } from './drawCertainImg';
 
-export const drawHandler = (canvasRef, msg) => {
+export const drawHandler = (canvas, msg) => {
 	const figure = msg.figure;
-	const ctx = canvasRef.current.getContext('2d');
+	const ctx = canvas.getContext('2d');
 	switch (figure.type) {
 		case 'brush':
 			Brush.staticDraw(ctx, figure.x, figure.y, figure.color, figure.width);

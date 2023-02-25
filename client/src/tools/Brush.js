@@ -16,15 +16,12 @@ export class Brush extends Tool {
 
 	mouseUpHandler(e) {
 		this.mouseDown = false;
-		this.socket.send(
-			JSON.stringify({
-				method: 'draw',
-				id: this.id,
-				figure: {
-					type: 'finish',
-				},
-			})
-		);
+		this.socket.emit('draw', {
+			id: this.id,
+			figure: {
+				type: 'finish',
+			},
+		});
 	}
 
 	mouseDownHandler(e) {
@@ -40,19 +37,16 @@ export class Brush extends Tool {
 
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
-			this.socket.send(
-				JSON.stringify({
-					method: 'draw',
-					id: this.id,
-					figure: {
-						type: this.name,
-						x: e.pageX - e.target.offsetLeft,
-						y: e.pageY - e.target.offsetTop,
-						color: this.ctx.strokeStyle,
-						width: this.ctx.lineWidth,
-					},
-				})
-			);
+			this.socket.emit('draw', {
+				id: this.id,
+				figure: {
+					type: this.name,
+					x: e.pageX - e.target.offsetLeft,
+					y: e.pageY - e.target.offsetTop,
+					color: this.ctx.strokeStyle,
+					width: this.ctx.lineWidth,
+				},
+			});
 		}
 	}
 

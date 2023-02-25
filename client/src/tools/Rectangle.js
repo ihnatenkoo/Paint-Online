@@ -16,22 +16,19 @@ export class Rectangle extends Tool {
 	mouseUpHandler(e) {
 		this.mouseDown = false;
 
-		this.socket.send(
-			JSON.stringify({
-				method: 'draw',
-				id: this.id,
-				figure: {
-					type: 'rectangle',
-					x: this.startX,
-					y: this.startY,
-					width: this.width,
-					height: this.height,
-					fill: this.ctx.fillStyle,
-					stroke: this.ctx.strokeStyle,
-					strokeWidth: this.ctx.lineWidth,
-				},
-			})
-		);
+		this.socket.emit('draw', {
+			id: this.id,
+			figure: {
+				type: 'rectangle',
+				x: this.startX,
+				y: this.startY,
+				width: this.width,
+				height: this.height,
+				fill: this.ctx.fillStyle,
+				stroke: this.ctx.strokeStyle,
+				strokeWidth: this.ctx.lineWidth,
+			},
+		});
 	}
 
 	mouseDownHandler(e) {

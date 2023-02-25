@@ -15,21 +15,18 @@ export class Circle extends Tool {
 
 	mouseUpHandler(e) {
 		this.mouseDown = false;
-		this.socket.send(
-			JSON.stringify({
-				method: 'draw',
-				id: this.id,
-				figure: {
-					type: 'circle',
-					x: this.startX,
-					y: this.startY,
-					r: this.r,
-					strokeWidth: this.ctx.lineWidth,
-					stroke: this.ctx.strokeStyle,
-					fill: this.ctx.fillStyle,
-				},
-			})
-		);
+		this.socket.emit('draw', {
+			id: this.id,
+			figure: {
+				type: 'circle',
+				x: this.startX,
+				y: this.startY,
+				r: this.r,
+				strokeWidth: this.ctx.lineWidth,
+				stroke: this.ctx.strokeStyle,
+				fill: this.ctx.fillStyle,
+			},
+		});
 	}
 
 	mouseDownHandler(e) {
