@@ -27,6 +27,12 @@ export class Circle extends Tool {
 				fill: this.ctx.fillStyle,
 			},
 		});
+		this.socket.emit('draw', {
+			room: this.room,
+			figure: {
+				type: 'finish',
+			},
+		});
 	}
 
 	mouseDownHandler(e) {
