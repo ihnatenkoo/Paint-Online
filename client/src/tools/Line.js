@@ -27,6 +27,12 @@ export class Line extends Tool {
 				width: this.ctx.lineWidth,
 			},
 		});
+		this.socket.emit('draw', {
+			room: this.room,
+			figure: {
+				type: 'finish',
+			},
+		});
 	}
 
 	mouseDownHandler(e) {
