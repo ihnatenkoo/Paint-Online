@@ -1,10 +1,12 @@
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import imageRouter from './imageRouter.js';
+dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(cors());
@@ -14,7 +16,7 @@ const socketServer = http.createServer(app);
 
 const io = new Server(socketServer, {
 	cors: {
-		origin: 'http://127.0.0.1:5173',
+		origin: process.env.CLIENT_URL,
 		methods: ['GET', 'POST'],
 	},
 });
