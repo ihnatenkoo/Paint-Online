@@ -2,8 +2,8 @@ import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Brush extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id);
+	constructor(canvas, socket, room) {
+		super(canvas, socket, room);
 		this.name = 'brush';
 		this.listen();
 	}
@@ -17,7 +17,7 @@ export class Brush extends Tool {
 	mouseUpHandler(e) {
 		this.mouseDown = false;
 		this.socket.emit('draw', {
-			id: this.id,
+			room: this.room,
 			figure: {
 				type: 'finish',
 			},
@@ -38,7 +38,7 @@ export class Brush extends Tool {
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
 			this.socket.emit('draw', {
-				id: this.id,
+				room: this.room,
 				figure: {
 					type: this.name,
 					x: e.pageX - e.target.offsetLeft,

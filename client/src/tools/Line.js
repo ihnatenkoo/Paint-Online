@@ -2,8 +2,8 @@ import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Line extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id);
+	constructor(canvas, socket, room) {
+		super(canvas, socket, room);
 		this.listen();
 	}
 
@@ -16,7 +16,7 @@ export class Line extends Tool {
 	mouseUpHandler(e) {
 		this.mouseDown = false;
 		this.socket.emit('draw', {
-			id: this.id,
+			room: this.room,
 			figure: {
 				type: 'line',
 				x: this.x,

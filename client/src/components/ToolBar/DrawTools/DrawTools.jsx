@@ -8,11 +8,11 @@ import s from './DrawTools.module.scss';
 
 const DrawTool = () => {
 	const [activeTool, setActiveTool] = useState('brush');
-	const { id } = useParams();
+	const { id: room } = useParams();
 
 	const onClickHandler = (toolName, tool) => {
 		canvasState.socket.emit('info', {
-			id,
+			room,
 			text: `${canvasState.userName} chose ${toolName}`,
 		});
 

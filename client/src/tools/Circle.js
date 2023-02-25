@@ -2,8 +2,8 @@ import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Circle extends Tool {
-	constructor(canvas, socked, id) {
-		super(canvas, socked, id);
+	constructor(canvas, socked, room) {
+		super(canvas, socked, room);
 		this.listen();
 	}
 
@@ -16,7 +16,7 @@ export class Circle extends Tool {
 	mouseUpHandler(e) {
 		this.mouseDown = false;
 		this.socket.emit('draw', {
-			id: this.id,
+			room: this.room,
 			figure: {
 				type: 'circle',
 				x: this.startX,

@@ -29,11 +29,11 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('draw', (data) => {
-		io.in(data.id).emit('draw', data);
+		io.in(data.room).emit('draw', data);
 	});
 
 	socket.on('info', (data) => {
-		io.in(data.id).emit('info', data);
+		io.in(data.room).emit('info', data);
 	});
 });
 

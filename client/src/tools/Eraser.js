@@ -1,8 +1,8 @@
 import { Brush } from './Brush';
 
 export class Eraser extends Brush {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id);
+	constructor(canvas, socket, room) {
+		super(canvas, socket, room);
 		this.name = 'eraser';
 	}
 

@@ -2,8 +2,8 @@ import toolState from '../store/toolState';
 import Tool from './Tool';
 
 export class Rectangle extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id);
+	constructor(canvas, socket, room) {
+		super(canvas, socket, room);
 		this.listen();
 	}
 
@@ -17,7 +17,7 @@ export class Rectangle extends Tool {
 		this.mouseDown = false;
 
 		this.socket.emit('draw', {
-			id: this.id,
+			room: this.room,
 			figure: {
 				type: 'rectangle',
 				x: this.startX,
