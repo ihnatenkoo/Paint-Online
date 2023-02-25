@@ -26,7 +26,7 @@ const Canvas = observer(() => {
 	};
 
 	const mouseUpHandler = async (canvas) => {
-		await axios.post(`http://localhost:5000/image?id=${room}`, {
+		await axios.post(`${import.meta.env.VITE_API_URL}/image?id=${room}`, {
 			img: canvas.toDataURL(),
 		});
 	};
@@ -34,7 +34,7 @@ const Canvas = observer(() => {
 	const drawSavedCanvas = async (canvas) => {
 		let ctx = canvas.getContext('2d');
 		const { data: imageData } = await axios.get(
-			`http://localhost:5000/image?id=${room}`
+			`${import.meta.env.VITE_API_URL}/image?id=${room}`
 		);
 		drawCertainImg(
 			ctx,

@@ -30,7 +30,7 @@ class CanvasState {
 
 			drawCertainImg(ctx, imageData, this.canvas.width, this.canvas.height);
 
-			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
+			axios.post(`${import.meta.env.VITE_API_URL}/image?id=${this.sessionId}`, {
 				img: imageData,
 			});
 
@@ -53,7 +53,7 @@ class CanvasState {
 			this.undoList.push(this.canvas.toDataURL());
 
 			drawCertainImg(ctx, imageData, this.canvas.width, this.canvas.height);
-			axios.post(`http://localhost:5000/image?id=${this.sessionId}`, {
+			axios.post(`${import.meta.env.VITE_API_URL}/image?id=${this.sessionId}`, {
 				img: imageData,
 			});
 

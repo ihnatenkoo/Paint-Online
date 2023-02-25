@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import canvasState from '../store/canvasState';
 import { drawHandler } from '../utils/drawHandler';
 
-const socket = io('ws://localhost:5000');
+const socket = io(`${import.meta.env.VITE_API_WS_URL}`);
 
 export const useSocketConnection = (room) => {
 	const userName = canvasState.userName;
