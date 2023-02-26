@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 				<Route path='/:id' element={<App />} />
 				<Route
 					path='*'
-					element={<Navigate to={`f${(+new Date()).toString(16)}`} replace />}
+					element={<Navigate to={crypto.randomUUID()} replace />}
 				/>
 			</Routes>
 		</BrowserRouter>
