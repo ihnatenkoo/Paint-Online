@@ -1,0 +1,12 @@
+.menu {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+
+	a,
+	span {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

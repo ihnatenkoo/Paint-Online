@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import canvasState from '../../../store/canvasState';
 import { onDownloadCanvas } from '../../../utils/onDownloadCanvas';
+import s from './DrawMenu.module.scss';
 
 const DrawMenu = observer(() => {
 	const onDownloadHandler = () => {
@@ -9,7 +10,10 @@ const DrawMenu = observer(() => {
 	};
 
 	return (
-		<div style={{ display: 'flex', gap: '12px' }}>
+		<div className={s.menu}>
+			<button>
+				<a href={`/`}>NEW</a>
+			</button>
 			<button
 				onClick={() => canvasState.undo()}
 				disabled={!canvasState.undoList.length}
